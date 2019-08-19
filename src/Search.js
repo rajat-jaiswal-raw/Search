@@ -36,13 +36,18 @@ class Search extends Component {
 
   render() {
     const { result } = this.state;
-    const { dataList, placeholder, searchIcon } = this.props;
+    const { dataList, placeholder, searchIcon, alignSearchIcon } = this.props;
     const data = result.map(element => {
       return <p>{JSON.stringify(dataList[element])}</p>;
     });
     return (
       <div>
-        <Form searchStr={this.searchStr} placeholder={placeholder} searchIcon={searchIcon} />
+        <Form
+          searchStr={this.searchStr}
+          placeholder={placeholder}
+          searchIcon={searchIcon}
+          alignSearchIcon={alignSearchIcon}
+        />
         {data}
       </div>
     );
@@ -53,12 +58,14 @@ Search.propTypes = {
   dataList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
   searchKey: PropTypes.arrayOf(PropTypes.string).isRequired,
   placeholder: PropTypes.string,
-  searchIcon: PropTypes.bool
+  searchIcon: PropTypes.bool,
+  alignSearchIcon: PropTypes.string
 };
 
 Search.defaultProps = {
   placeholder: 'Search Something',
-  searchIcon: false
+  searchIcon: false,
+  alignSearchIcon: 'left'
 };
 
 export default Search;

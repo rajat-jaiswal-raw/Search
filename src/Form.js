@@ -44,9 +44,10 @@ class Form extends Component {
 
   render() {
     const { input } = this.state;
-    const { placeholder, searchIcon } = this.props;
+    const { placeholder, searchIcon, alignSearchIcon } = this.props;
     return (
       <form onSubmit={this.handelSubmit}>
+        {alignSearchIcon === 'left' && searchIcon && <button type="button">Find</button>}
         <input
           id="input"
           name="input"
@@ -54,7 +55,7 @@ class Form extends Component {
           onChange={this.handelChange}
           placeholder={placeholder}
         />
-        {searchIcon && <button type="button">Find</button>}
+        {alignSearchIcon === 'right' && searchIcon && <button type="button">Find</button>}
       </form>
     );
   }
@@ -63,7 +64,8 @@ class Form extends Component {
 Form.propTypes = {
   searchStr: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
-  searchIcon: PropTypes.bool.isRequired
+  searchIcon: PropTypes.bool.isRequired,
+  alignSearchIcon: PropTypes.string.isRequired
 };
 
 Form.defaultProps = {};
