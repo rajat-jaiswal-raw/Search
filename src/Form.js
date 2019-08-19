@@ -19,13 +19,6 @@ class Form extends Component {
    *
    * @param {*} evt
    */
-  handelChange(evt) {
-    this.setState({
-      [evt.target.name]: evt.target.value
-    });
-    const { searchStr } = this.props;
-    searchStr(evt.target.value);
-  }
 
   /**
    *
@@ -47,7 +40,6 @@ class Form extends Component {
     const { placeholder, searchIcon, alignSearchIcon } = this.props;
     return (
       <form onSubmit={this.handelSubmit}>
-        {alignSearchIcon === 'left' && searchIcon && <button type="button">Find</button>}
         <input
           id="input"
           name="input"
@@ -55,13 +47,15 @@ class Form extends Component {
           onChange={this.handelChange}
           placeholder={placeholder}
         />
-        {alignSearchIcon === 'right' && searchIcon && <button type="button">Find</button>}
       </form>
     );
   }
 }
 
 Form.propTypes = {
+  /**
+   *
+   */
   searchStr: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
   searchIcon: PropTypes.bool.isRequired,

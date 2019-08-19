@@ -2,16 +2,24 @@
 import React, { Component } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
-import Form from './Form';
 
 class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      result: []
+      result: [],
+      inputStr: ''
     };
     this.searchStr = this.searchStr.bind(this);
     this.insertObject = this.insertObject.bind(this);
+    this.handelChange = this.handelChange.bind(this);
+  }
+
+  handelChange(evt) {
+    this.setState({
+      [evt.target.name]: evt.target.value
+    });
+    this.searchStr(evt.target.value);
   }
 
   searchStr(str) {
@@ -35,19 +43,21 @@ class Search extends Component {
   }
 
   render() {
-    const { result } = this.state;
+    const { result, inputStr } = this.state;
     const { dataList, placeholder, searchIcon, alignSearchIcon } = this.props;
     const data = result.map(element => {
       return <p>{JSON.stringify(dataList[element])}</p>;
     });
     return (
       <div>
-        <Form
-          searchStr={this.searchStr}
+        {alignSearchIcon === 'left' && searchIcon && <button type="button">Find</button>}
+        <input
+          name="inputStr"
+          value={inputStr}
+          onChange={this.handelChange}
           placeholder={placeholder}
-          searchIcon={searchIcon}
-          alignSearchIcon={alignSearchIcon}
         />
+        {alignSearchIcon === 'right' && searchIcon && <button type="button">Find</button>}
         {data}
       </div>
     );
