@@ -15,6 +15,10 @@ class Search extends Component {
     this.handelChange = this.handelChange.bind(this);
   }
 
+  /**
+   * It updates the value of Input element and searches for the value.
+   * @param {Event} evt - A react event.
+   */
   handelChange(evt) {
     this.setState({
       [evt.target.name]: evt.target.value
@@ -22,6 +26,10 @@ class Search extends Component {
     this.searchStr(evt.target.value);
   }
 
+  /**
+   * It will search given string in dataList.
+   * @param {String} str - Search string.
+   */
   searchStr(str) {
     const indexList = [];
     const addedIndex = new Set();
@@ -32,6 +40,13 @@ class Search extends Component {
     this.setState({ result: indexList });
   }
 
+  /**
+   * It will append the index of objects which have str in the value of key
+   * @param {Array} indexList - List of index of objects which are already selected.
+   * @param {Set} addedIndex - Set of index of selected objects.
+   * @param {String} key - The property of object where we have to search.
+   * @param {String} str - The string which we have to search.
+   */
   insertObject(indexList, addedIndex, key, str) {
     const { dataList } = this.props;
     dataList.forEach((value, index) => {
