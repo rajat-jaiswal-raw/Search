@@ -1,14 +1,34 @@
-.Search i {
+.Search {
+  /* width: 400px;
+  margin: auto; */
+}
+
+.Search-results {
+  height: 200px;
+  overflow: auto;
+}
+
+.Search-search-icon {
   margin: 3px;
   color: darkgray;
 }
 
 .Search-input-field {
-  border: none;
+  flex-grow: 1;
+}
+
+.Search-result-object {
+  line-height: 2em;
+  margin: 10px;
+}
+
+.Search-result-object:hover {
+  background-color: rgb(230, 230, 230);
 }
 
 .Search-input {
-  display: inline-block;
+  display: flex;
+  align-items: baseline;
   padding: 5px;
   border: 2px solid;
   margin: 5px;

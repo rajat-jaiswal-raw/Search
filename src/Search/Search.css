@@ -1,0 +1,22 @@
+.Search {
+  width: 100%;
+}
+
+.Search-search-icon {
+  margin: 3px;
+  color: darkgray;
+}
+
+.Search-input-field {
+  border: none;
+  flex-grow: 1;
+}
+
+.Search-input {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border: 2px solid;
+  margin: 5px;
+  border-radius: 5px;
+}

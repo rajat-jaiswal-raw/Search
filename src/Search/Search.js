@@ -16,7 +16,14 @@ class Search extends Component {
     this.searchStr = this.searchStr.bind(this);
     this.insertObject = this.insertObject.bind(this);
     this.handelChange = this.handelChange.bind(this);
-    this.handelOnClick = this.handelOnClick.bind(this);
+  }
+
+  /**
+   * It will return font awsome search icon.
+   * @returns {JSX} - A search icon.
+   */
+  static getIcon() {
+    return <i className="fa fa-search Search-search-icon" />;
   }
 
   /**
@@ -30,11 +37,6 @@ class Search extends Component {
     this.searchStr(evt.target.value);
   }
 
-  handelOnClick(evt) {
-    const { textContent } = evt.target;
-    this.setState({ inputStr: textContent, result: [] });
-  }
-
   /**
    * It will search given string in dataList.
    * @param {String} str - Search string.
@@ -42,11 +44,13 @@ class Search extends Component {
   searchStr(str) {
     const indexList = [];
     const addedIndex = new Set();
-    const { searchKey } = this.props;
+    const { result } = this.state;
+    const { searchKey, getIndexes } = this.props;
     searchKey.forEach(key => {
       this.insertObject(indexList, addedIndex, key, str);
     });
     this.setState({ result: indexList });
+    getIndexes(result);
   }
 
   /**
@@ -67,21 +71,12 @@ class Search extends Component {
   }
 
   render() {
-    const { result, inputStr } = this.state;
-    const { dataList, placeholder, searchIcon, alignSearchIcon } = this.props;
-    const data = result.map(element => {
-      return (
-        <div className="Search-result-object" onClick={this.handelOnClick}>
-          {JSON.stringify(dataList[element])}
-        </div>
-      );
-    });
+    const { inputStr } = this.state;
+    const { placeholder, searchIcon, alignSearchIcon } = this.props;
     return (
       <div className="Search">
         <div className="Search-input">
-          {searchIcon && alignSearchIcon === 'left' && (
-            <i className="fa fa-search Search-search-icon" />
-          )}
+          {searchIcon && alignSearchIcon === 'left' && Search.getIcon()}
           <input
             className="Search-input-field"
             name="inputStr"
@@ -89,12 +84,8 @@ class Search extends Component {
             onChange={this.handelChange}
             placeholder={placeholder}
           />
-          <i className="fa fa-caret-down Search-triangle-icon" aria-hidden="true" />
-          {searchIcon && alignSearchIcon === 'right' && (
-            <i className="fa fa-search Search-search-icon" />
-          )}
+          {searchIcon && alignSearchIcon === 'right' && Search.getIcon()}
         </div>
-        <div className="Search-results">{data}</div>
       </div>
     );
   }
@@ -104,6 +95,10 @@ Search.propTypes = {
   /** Array of objects where we have to perform search.
    * */
   dataList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+  /**
+   * A function which will get an array of index of dataList objects as a parameter.
+   */
+  getIndexes: PropTypes.func.isRequired,
   /** Array of keys in which we have to search.
    * */
   searchKey: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -124,7 +119,7 @@ Search.propTypes = {
 };
 
 Search.defaultProps = {
-  placeholder: 'Search Something',
+  placeholder: 'Search',
   searchIcon: false,
   alignSearchIcon: 'left'
 };
