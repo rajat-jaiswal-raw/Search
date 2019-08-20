@@ -2,12 +2,15 @@
 import React, { Component } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
+import 'font-awesome/css/font-awesome.min.css';
+import './Search.css';
 
 class Search extends Component {
   constructor(props) {
     super(props);
+    const { dataList } = this.props;
     this.state = {
-      result: [],
+      result: [...Array(dataList.length).keys()],
       inputStr: ''
     };
     this.searchStr = this.searchStr.bind(this);
@@ -64,15 +67,18 @@ class Search extends Component {
       return <p>{JSON.stringify(dataList[element])}</p>;
     });
     return (
-      <div>
-        {alignSearchIcon === 'left' && searchIcon && <button type="button">Find</button>}
-        <input
-          name="inputStr"
-          value={inputStr}
-          onChange={this.handelChange}
-          placeholder={placeholder}
-        />
-        {alignSearchIcon === 'right' && searchIcon && <button type="button">Find</button>}
+      <div className="Search">
+        <div className="Search-input">
+          {searchIcon && alignSearchIcon === 'left' && <i className="fa fa-search" />}
+          <input
+            className="Search-input-field"
+            name="inputStr"
+            value={inputStr}
+            onChange={this.handelChange}
+            placeholder={placeholder}
+          />
+          {searchIcon && alignSearchIcon === 'right' && <i className="fa fa-search" />}
+        </div>
         {data}
       </div>
     );
@@ -80,10 +86,25 @@ class Search extends Component {
 }
 
 Search.propTypes = {
+  /** Array of objects where we have to perform search.
+   * */
   dataList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+  /** Array of keys in which we have to search.
+   * */
   searchKey: PropTypes.arrayOf(PropTypes.string).isRequired,
+  /** Placeholder for input element.
+   * - Default - ```Search Something```
+   * */
   placeholder: PropTypes.string,
+  /** Display search icon or not.
+   * - Options - ```true``` | ```false```
+   * - Default - ```false```
+   * */
   searchIcon: PropTypes.bool,
+  /** Alignment of search icon.
+   * - Options - ```left``` | ```right```
+   * - Default - ```left```
+   * */
   alignSearchIcon: PropTypes.string
 };
 

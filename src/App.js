@@ -12,7 +12,7 @@ class App extends PureComponent {
           searchKey={['b', 'a']}
           placeholder="default value"
           searchIcon
-          alignSearchIcon="right"
+          alignSearchIcon="left"
         />
       </div>
     );

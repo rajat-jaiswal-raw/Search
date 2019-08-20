@@ -1,0 +1,16 @@
+.Search i {
+  margin: 3px;
+  color: darkgray;
+}
+
+.Search-input-field {
+  border: none;
+}
+
+.Search-input {
+  display: inline-block;
+  padding: 5px;
+  border: 2px solid;
+  margin: 5px;
+  border-radius: 5px;
+}
