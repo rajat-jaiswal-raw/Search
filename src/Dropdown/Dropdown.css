@@ -1,0 +1,23 @@
+.Dropdown {
+  border: 1.5px solid;
+  border-radius: 2px;
+  margin: 5px;
+}
+
+.Dropdown-collapse {
+  border-color: rgb(220, 220, 220);
+}
+
+.Dropdown-collapse:hover {
+  border-color: rgb(180, 180, 180);
+}
+
+.Dropdown-expand {
+  border: 1px solid #87c7d0;
+}
+
+.Dropdown-current {
+  margin: 5px;
+  display: flex;
+  justify-content: space-between;
+}
