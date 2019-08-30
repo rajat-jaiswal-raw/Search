@@ -1,23 +1,50 @@
 .Dropdown {
-  border: 1.5px solid;
-  border-radius: 2px;
-  margin: 5px;
+  border: 1px solid #cccccc;
+  box-shadow: 0 2px 4px 0 rgba(34, 36, 38, 0.12), 0 2px 10px 0 rgba(34, 36, 38, 0.15);
+  border-radius: 3px;
 }
 
-.Dropdown-collapse {
-  border-color: rgb(220, 220, 220);
-}
-
-.Dropdown-collapse:hover {
-  border-color: rgb(180, 180, 180);
-}
-
-.Dropdown-expand {
-  border: 1px solid #87c7d0;
-}
-
-.Dropdown-current {
-  margin: 5px;
+.Dropdown-head {
+  text-align: center;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.Dropdown-head-selected {
+  margin-right: 10px;
+  overflow: hidden;
+}
+
+.Dropdown-head-selected:hover {
+  overflow: auto;
+}
+
+.Dropdown-search {
+  padding: 5px 10px;
+}
+
+.Dropdown-option {
+  border-top: 1.5px solid #dddddd;
+  overflow: hidden;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.Dropdown-option:hover {
+  border-radius: 3px;
+  overflow: auto;
+  background-color: #e5e5e5;
+}
+
+.Dropdown-expanded {
+  z-index: 2;
+}
+
+.Dropdown-all-options {
+  padding: 5px;
+  max-height: 150px;
+  overflow: auto;
 }

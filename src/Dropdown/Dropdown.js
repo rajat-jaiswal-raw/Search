@@ -1,113 +1,182 @@
-/* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import Search from '../Search/Search';
 import './Dropdown.css';
 import 'font-awesome/css/font-awesome.min.css';
 
+/**
+ * A react component which will take dataList and searchKey
+ * and it will search the query in dataList.
+ */
 class Dropdown extends Component {
+  /**
+   * Constructor for Search component.
+   * @param {*} props - React props.
+   */
   constructor(props) {
     super(props);
-    this.state = { currOption: 'Select one', options: ['a', 'b', 'c', 'd'], showOptions: false };
-    this.selectOption = this.selectOption.bind(this);
-    this.displayOptions = this.displayOptions.bind(this);
+    const { dataList } = this.props;
+    this.state = {
+      selected: '',
+      allOptionList: [...Array(dataList.length).keys()],
+      optionList: [],
+      showOptions: false
+    };
+    this.renderOptionList = this.renderOptionList.bind(this);
+    this.renderOptionElement = this.renderOptionElement.bind(this);
+    this.setSelected = this.setSelected.bind(this);
+    this.toggleShowOptions = this.toggleShowOptions.bind(this);
+    this.getIndexes = this.getIndexes.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
-  selectOption(evt) {
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
+  /**
+   * It will update the selected value as well as removes all the options.
+   * @param {Event} evt - A react event.
+   */
+  setSelected(evt) {
     const { textContent } = evt.target;
-    this.setState({ currOption: textContent, showOptions: false });
+    this.setState({ selected: textContent, showOptions: false });
   }
 
-  displayOptions() {
-    this.setState({ showOptions: true });
+  /**
+   * Updates the optionList state.
+   * @param {Array} searchResult - List of indexes from search component.
+   */
+  getIndexes(searchResult) {
+    this.setState({ optionList: searchResult });
   }
 
-  render() {
-    const { currOption, options, showOptions } = this.state;
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.setState({ showOptions: false });
+    }
+  }
 
-    const data = showOptions
-      ? options.map((element, index) => {
-          return (
-            <div
-              className="Search-result-object"
-              key={index}
-              onClick={this.selectOption}
-              onKeyPress={this.selectOption}
-              role="presentation"
-            >
-              {element}
-            </div>
-          );
-        })
-      : '';
+  /**
+   * Changes showOptions state.
+   * If new value of showOptions is true then all the indexes are pushed into optionList.
+   */
+  toggleShowOptions() {
+    const { showOptions, allOptionList } = this.state;
+    if (showOptions) {
+      this.setState({ showOptions: false });
+    } else {
+      this.setState({ showOptions: true, optionList: [...allOptionList] });
+    }
+  }
 
-    const DropdownClass = !showOptions ? 'Dropdown-collapse' : 'Dropdown-expand';
-
+  /**
+   * It will allow us to search the values in dataList.
+   * @returns {JSX} - A Search component.
+   */
+  rendersearchElement() {
+    const { dataList, searchKey } = this.props;
     return (
-      <div className={`Dropdown ${DropdownClass}`}>
-        <div
-          className="Dropdown-current"
-          onClick={this.displayOptions}
-          onKeyPress={this.displayOptions}
-          role="presentation"
-        >
-          {currOption}
-          <i className="fa fa-caret-down Dropdown-triangle-icon" aria-hidden="true" />
-        </div>
-        <div>{data}</div>
+      <div className="Dropdown-search">
+        <Search dataList={dataList} searchKey={searchKey} getIndexes={this.getIndexes} searchIcon />
+      </div>
+    );
+  }
+
+  /**
+   * Returns Dropdown head element with either selected option or placeholder in it.
+   * @returns {JSX} - Dropdown head element.
+   */
+  renderDropdownHead() {
+    const { selected } = this.state;
+    const { placeholder } = this.props;
+    const headContent = selected.length ? selected : placeholder;
+    return (
+      <div className="Dropdown-head" onClick={this.toggleShowOptions} role="presentation">
+        <div className="Dropdown-head-selected">{headContent}</div>
+        <i className="fa fa-caret-down Dropdown-triangle-icon" aria-hidden="true" />
+      </div>
+    );
+  }
+
+  /**
+   * Return all the available options.
+   * @returns {JSX} - All the option elements.
+   */
+  renderOptionList() {
+    const { optionList } = this.state;
+    const { dataList, displayKey } = this.props;
+    const allElements = [];
+    optionList.forEach(element => {
+      const textContent = dataList[element][displayKey];
+      if (textContent) {
+        allElements.push(this.renderOptionElement(textContent));
+      }
+    });
+    return allElements;
+  }
+
+  /**
+   * An option which is at index in dataList.
+   * @param {number} index - Index of option in dataList.
+   * @returns {JSX} - An option element.
+   */
+  renderOptionElement(option) {
+    return (
+      <div className="Dropdown-option" onClick={this.setSelected} role="presentation">
+        {option}
+      </div>
+    );
+  }
+
+  /**
+   * render method of Dropdown component.
+   */
+  render() {
+    const { showOptions } = this.state;
+    return (
+      <div
+        ref={node => {
+          this.wrapperRef = node;
+        }}
+        className="Dropdown"
+      >
+        {this.renderDropdownHead()}
+        {showOptions && (
+          <div className="Dropdown-expanded">
+            {this.rendersearchElement()}
+            <div className="Dropdown-all-options">{this.renderOptionList()}</div>
+          </div>
+        )}
       </div>
     );
   }
 }
 
-// Dropdown.propTypes = {
-//   options: PropTypes.arrayOf(PropTypes.string).isRequired
-// };
+Dropdown.propTypes = {
+  /** Array of objects where we have to perform search.
+   * */
+  dataList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+  /** Array of keys in which we have to search.
+   * */
+  searchKey: PropTypes.arrayOf(PropTypes.string).isRequired,
+  /** Placeholder for dropdown element.
+   * - Default - ```Select```
+   * */
+  placeholder: PropTypes.string,
+  /**
+   * The key whose value will be in optionList.
+   */
+  displayKey: PropTypes.string.isRequired
+};
 
-// Dropdown.defaultProps = {};
+Dropdown.defaultProps = {
+  placeholder: 'Select'
+};
 
 export default Dropdown;
-
-// constructor(props) {
-//   super(props);
-//   this.state = {
-//     dataList: [
-//       { a: 'abracadbra', b: '2' },
-//       { a: 'zzz', b: 'abracadbra' },
-//       { a: 'abracadbra', b: '2' },
-//       { a: 'zzz', b: 'abracadbra' },
-//       { a: 'abracadbra', b: '2' },
-//       { a: 'zzz', b: 'abracadbra' },
-//       { a: 'abracadbra', b: '2' },
-//       { a: 'zzz', b: 'abracadbra' },
-//       { a: 'abracadbra', b: '2' },
-//       { a: 'zzz', b: 'abracadbra' },
-//       { a: 'abracadbra', b: '2' },
-//       { a: 'zzz', b: 'abracadbra' }
-//     ]
-//   };
-//   this.getIndexes = this.getIndexes.bind(this);
-// }
-
-// getIndexes(indexList) {
-//   const { dataList } = this.state;
-//   indexList.forEach(element => {
-//     console.log(dataList[element]);
-//   });
-// }
-
-// render() {
-//   const { dataList } = this.state;
-//   return (
-//     <div className="App">
-//       <Search
-//         dataList={dataList}
-//         searchKey={['b', 'a']}
-//         // placeholder="Select objects"
-//         searchIcon
-//         alignSearchIcon="right"
-//         getIndexes={this.getIndexes}
-//       />
-//     </div>
-//   );
-// }

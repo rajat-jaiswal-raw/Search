@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
@@ -15,11 +14,7 @@ class Search extends Component {
    */
   constructor(props) {
     super(props);
-    const { dataList } = this.props;
-    this.state = {
-      result  : [...Array(dataList.length).keys()],
-      inputStr: ''
-    };
+    this.state = { inputStr: '' };
     this.searchStr = this.searchStr.bind(this);
     this.insertObject = this.insertObject.bind(this);
     this.handelChange = this.handelChange.bind(this);
@@ -34,13 +29,29 @@ class Search extends Component {
   }
 
   /**
+   * Returns an input element.
+   * @param {String} inputStr - value for input element
+   * @param {String} placeholder - placeHolder for input element
+   * @param {JSX} - An input element.
+   */
+  getInputElement(inputStr, placeholder) {
+    return (
+      <input
+        className="Search-input-field"
+        name="inputStr"
+        value={inputStr}
+        onChange={this.handelChange}
+        placeholder={placeholder}
+      />
+    );
+  }
+
+  /**
    * It updates the value of Input element and searches for the value.
    * @param {Event} evt - A react event.
    */
   handelChange(evt) {
-    this.setState({
-      [evt.target.name]: evt.target.value
-    });
+    this.setState({ [evt.target.name]: evt.target.value });
     this.searchStr(evt.target.value);
   }
 
@@ -49,16 +60,14 @@ class Search extends Component {
    * @param {String} str - Search string.
    */
   searchStr(str) {
+    const lowerStr = str.toLocaleLowerCase();
     const indexList = [];
     const addedIndex = new Set();
-    const { result } = this.state;
     const { searchKey, getIndexes } = this.props;
     searchKey.forEach(key => {
-      this.insertObject(indexList, addedIndex, key, str);
+      this.insertObject(indexList, addedIndex, key, lowerStr);
     });
-    this.setState({ result: indexList }, () => {
-      getIndexes(result);
-    });
+    getIndexes(indexList);
   }
 
   /**
@@ -71,7 +80,7 @@ class Search extends Component {
   insertObject(indexList, addedIndex, key, str) {
     const { dataList } = this.props;
     dataList.forEach((value, index) => {
-      if (!addedIndex.has(index) && value[key] && value[key].includes(str)) {
+      if (!addedIndex.has(index) && value[key] && value[key].toLowerCase().includes(str)) {
         indexList.push(index);
         addedIndex.add(index);
       }
@@ -88,13 +97,7 @@ class Search extends Component {
       <div className="Search">
         <div className="Search-input">
           {searchIcon && alignSearchIcon === 'left' && Search.getIcon()}
-          <input
-            className="Search-input-field"
-            name="inputStr"
-            value={inputStr}
-            onChange={this.handelChange}
-            placeholder={placeholder}
-          />
+          {this.getInputElement(inputStr, placeholder)}
           {searchIcon && alignSearchIcon === 'right' && Search.getIcon()}
         </div>
       </div>
@@ -105,23 +108,23 @@ class Search extends Component {
 Search.propTypes = {
   /** Array of objects where we have to perform search.
    * */
-  dataList       : PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+  dataList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
   /**
    * A function which will get an array of index of dataList objects as a parameter.
    */
-  getIndexes     : PropTypes.func.isRequired,
+  getIndexes: PropTypes.func.isRequired,
   /** Array of keys in which we have to search.
    * */
-  searchKey      : PropTypes.arrayOf(PropTypes.string).isRequired,
+  searchKey: PropTypes.arrayOf(PropTypes.string).isRequired,
   /** Placeholder for input element.
    * - Default - ```Search Something```
    * */
-  placeholder    : PropTypes.string,
+  placeholder: PropTypes.string,
   /** Display search icon or not.
    * - Options - ```true``` | ```false```
    * - Default - ```false```
    * */
-  searchIcon     : PropTypes.bool,
+  searchIcon: PropTypes.bool,
   /** Alignment of search icon.
    * - Options - ```left``` | ```right```
    * - Default - ```left```
@@ -130,8 +133,8 @@ Search.propTypes = {
 };
 
 Search.defaultProps = {
-  placeholder    : 'Search',
-  searchIcon     : false,
+  placeholder: 'Search',
+  searchIcon: false,
   alignSearchIcon: 'left'
 };
 

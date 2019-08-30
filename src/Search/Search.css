@@ -1,21 +1,28 @@
-.Search {
-  width: 100%;
-}
-
 .Search-search-icon {
-  margin: 3px;
+  padding: 5px;
+  font-size: 0.9em;
   color: darkgray;
 }
 
 .Search-input-field {
   border: none;
+  padding: 1.5px;
+  overflow: hidden;
   flex-grow: 1;
 }
 
+.Search-input-field:focus {
+  outline: none;
+}
+
+.Search-input:hover {
+  border-color: #afafaf;
+}
+
 .Search-input {
+  border: 1.5px solid #cfcfcf;
+  padding: 3px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
-  padding: 5px;
-  /* border: 1.8px solid;
-  border-radius: 5px; */
 }
