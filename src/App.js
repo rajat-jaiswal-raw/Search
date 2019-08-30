@@ -39,8 +39,13 @@ class App extends PureComponent {
     const { dataList, searchKey } = this.state;
     return (
       <div className="App">
-        <Dropdown dataList={dataList} searchKey={searchKey} displayKey="b" />
-        <Dropdown dataList={dataList} searchKey={searchKey} displayKey="b" />
+        <div className="abc">
+          <Dropdown dataList={dataList} searchKey={searchKey} displayKey="a" />
+        </div>
+        <br />
+        <div>
+          <Dropdown dataList={dataList} searchKey={searchKey} displayKey="b" />
+        </div>
         abracadbra
       </div>
     );
