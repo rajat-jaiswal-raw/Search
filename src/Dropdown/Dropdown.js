@@ -18,10 +18,10 @@ class Dropdown extends Component {
     super(props);
     const { dataList } = this.props;
     this.state = {
-      selected: '',
+      selected     : '',
       allOptionList: [...Array(dataList.length).keys()],
-      optionList: [],
-      showOptions: false
+      optionList   : [],
+      showOptions  : false
     };
     this.renderOptionList = this.renderOptionList.bind(this);
     this.renderOptionElement = this.renderOptionElement.bind(this);
@@ -31,10 +31,16 @@ class Dropdown extends Component {
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
+  /**
+   * It will add event listener outside the component.
+   */
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside);
   }
 
+  /**
+   * It will remove event listener outside the component.
+   */
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside);
   }
@@ -56,6 +62,10 @@ class Dropdown extends Component {
     this.setState({ optionList: searchResult });
   }
 
+  /**
+   * When clicked outside the component it will collapse
+   * @param {Event} event - A react event.
+   */
   handleClickOutside(event) {
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
       this.setState({ showOptions: false });
@@ -165,10 +175,10 @@ class Dropdown extends Component {
 Dropdown.propTypes = {
   /** Array of objects where we have to perform search.
    * */
-  dataList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+  dataList   : PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
   /** Array of keys in which we have to search.
    * */
-  searchKey: PropTypes.arrayOf(PropTypes.string).isRequired,
+  searchKey  : PropTypes.arrayOf(PropTypes.string).isRequired,
   /** Placeholder for dropdown element.
    * - Default - ```Select```
    * */
@@ -176,7 +186,7 @@ Dropdown.propTypes = {
   /**
    * The key whose value will be in optionList.
    */
-  displayKey: PropTypes.string.isRequired
+  displayKey : PropTypes.string.isRequired
 };
 
 Dropdown.defaultProps = {

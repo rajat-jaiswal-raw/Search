@@ -108,23 +108,23 @@ class Search extends Component {
 Search.propTypes = {
   /** Array of objects where we have to perform search.
    * */
-  dataList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+  dataList       : PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
   /**
    * A function which will get an array of index of dataList objects as a parameter.
    */
-  getIndexes: PropTypes.func.isRequired,
+  getIndexes     : PropTypes.func.isRequired,
   /** Array of keys in which we have to search.
    * */
-  searchKey: PropTypes.arrayOf(PropTypes.string).isRequired,
+  searchKey      : PropTypes.arrayOf(PropTypes.string).isRequired,
   /** Placeholder for input element.
    * - Default - ```Search Something```
    * */
-  placeholder: PropTypes.string,
+  placeholder    : PropTypes.string,
   /** Display search icon or not.
    * - Options - ```true``` | ```false```
    * - Default - ```false```
    * */
-  searchIcon: PropTypes.bool,
+  searchIcon     : PropTypes.bool,
   /** Alignment of search icon.
    * - Options - ```left``` | ```right```
    * - Default - ```left```
@@ -133,8 +133,8 @@ Search.propTypes = {
 };
 
 Search.defaultProps = {
-  placeholder: 'Search',
-  searchIcon: false,
+  placeholder    : 'Search',
+  searchIcon     : false,
   alignSearchIcon: 'left'
 };
 
