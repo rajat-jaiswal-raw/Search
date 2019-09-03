@@ -1,4 +1,5 @@
 {
+  "homepage": "http://rajat-jaiswal-raw.github.io/Search",
   "name": "pattern",
   "version": "0.1.0",
   "private": true,
@@ -9,6 +10,8 @@
     "react-scripts": "3.1.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -38,6 +41,7 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "gh-pages": "^2.1.1",
     "prettier": "^1.18.2"
   }
 }
