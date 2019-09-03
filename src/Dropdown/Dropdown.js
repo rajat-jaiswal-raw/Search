@@ -97,7 +97,11 @@ class Dropdown extends Component {
     const { placeholder } = this.props;
     const headContent = selected.length ? selected : placeholder;
     return (
-      <div className="Dropdown-head" onClick={this.toggleShowOptions} role="presentation">
+      <div
+        className="Dropdown-head Dropdown-border-style"
+        onClick={this.toggleShowOptions}
+        role="presentation"
+      >
         <div className="Dropdown-head-selected">{headContent}</div>
         <i className="fa fa-caret-down Dropdown-triangle-icon" aria-hidden="true" />
       </div>
@@ -148,7 +152,7 @@ class Dropdown extends Component {
       >
         {this.renderDropdownHead()}
         {showOptions && (
-          <div className="Dropdown-expanded">
+          <div className="Dropdown-menu Dropdown-border-style">
             {this.rendersearchElement()}
             <div className="Dropdown-all-options">{this.renderOptionList()}</div>
           </div>

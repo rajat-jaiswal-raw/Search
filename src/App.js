@@ -43,10 +43,9 @@ class App extends PureComponent {
           <Dropdown dataList={dataList} searchKey={searchKey} displayKey="a" />
         </div>
         <br />
-        <div>
+        <div className="abc">
           <Dropdown dataList={dataList} searchKey={searchKey} displayKey="b" />
         </div>
-        abracadbra
       </div>
     );
   }

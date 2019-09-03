@@ -1,6 +1,9 @@
 .App {
   margin: 5px auto auto;
-  /* display: flex;
-  justify-content: space-between; */
+  /* display: flex; */
   width: 300px;
 }
+
+/* .abc {
+  width: 300px;
+} */
